@@ -4,7 +4,8 @@ import moment from 'moment';                                                    
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";                     // 
 import "antd/dist/reset.css";                                                         // 
 import './App.css';                                                                   //
-//  "useState" is a Hook in React that lets you add state to functional components. It returns a pair of values: the current state and a function that updates it. You can use it to keep track of data that changes over time and re-render the component when the state changes
+
+  //  "useState" is a Hook in React that lets you add state to functional components. It returns a pair of values: the current state and a function that updates it. You can use it to keep track of data that changes over time and re-render the component when the state changes
 
 function App() {                                     // functional component called App
   const [tasks, setTasks] = useState([]);            // tasks is initialized as an empty array and can be updated using the setTasks function
