@@ -1,31 +1,32 @@
-import React, { useState } from 'react';
-import { Table, Form, Input, DatePicker, Select, Button, Modal, Tag } from 'antd';
-import moment from 'moment';
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import "antd/dist/reset.css";
-import './App.css';
+import React, { useState } from 'react';                                              // importing components 
+import { Table, Form, Input, DatePicker, Select, Button, Modal, Tag } from 'antd';    // and css file
+import moment from 'moment';                                                          // 
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";                     // 
+import "antd/dist/reset.css";                                                         // 
+import './App.css';                                                                   //
+//  "useState" is a Hook in React that lets you add state to functional components. It returns a pair of values: the current state and a function that updates it. You can use it to keep track of data that changes over time and re-render the component when the state changes
 
-function App() {
-  const [tasks, setTasks] = useState([]);
-  const [form] = Form.useForm();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editingTask, setEditingTask] = useState(null);
+function App() {                                     // functional component called App
+  const [tasks, setTasks] = useState([]);            // tasks is initialized as an empty array and can be updated using the setTasks function
+  const [form] = Form.useForm();                     //created using the Form.useForm() method from the antd library
+  const [isModalVisible, setIsModalVisible] = useState(false);      //control the visibility
+  const [isEditing, setIsEditing] = useState(false);                //used to track whether the user is currently editing a task
+  const [editingTask, setEditingTask] = useState(null);             //used to store the task that is currently being edited
   
-  const columns = [
+  const columns = [                  // used to configure the columns of a table component
     {
       title: 'Timestamp',
       dataIndex: 'timestamp',
       key: 'timestamp',
       width: 150,
-      sorter: (a, b) => moment(a.timestamp).unix() - moment(b.timestamp).unix(),
+      sorter: (a, b) => moment(a.timestamp).unix() - moment(b.timestamp).unix(),    // sorts the rows by their timestamp values
     },
     {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
       width: 150,
-      sorter: (a, b) => a.title.localeCompare(b.title),
+      sorter: (a, b) => a.title.localeCompare(b.title),     // sorts the rows by their title values
     },
     {
       title: 'Description',
@@ -37,14 +38,14 @@ function App() {
       dataIndex: 'dueDate',
       key: 'dueDate',
       width: 150,
-      sorter: (a, b) => moment(a.dueDate).unix() - moment(b.dueDate).unix(),
+      sorter: (a, b) => moment(a.dueDate).unix() - moment(b.dueDate).unix(),      // sorts the rows by their due date values
     },
     {
       title: 'Tags',
       dataIndex: 'tags',
       key: 'tags',
       width: 100,
-      render: (tags) => (
+      render: (tags) => (         // render function specifies how to display the tags
         <span>
           {tags.map((tag) => {
             let color = tag.length > 5 ? '' : '';
@@ -76,7 +77,7 @@ function App() {
     {
       title: "Actions",
       width: 100,
-      render: (record) => {
+      render: (record) => {            // render function specifies how to display the tags
         return (
           <>
             <EditOutlined
@@ -96,33 +97,33 @@ function App() {
     },
   ];
 
-  const onDeleteTask = (record) => {
-    Modal.confirm({
-      title: "Are you sure, you want to delete this task?",
-      okText: "Yes",
-      okType: "danger",
-      onOk: () => {
-        setTasks((pre) => {
-          return pre.filter((task) => task.title !== record.title);
+  const onDeleteTask = (record) => {                                    // The 'onDeleteTask' function takes a record as its argument and 
+    Modal.confirm({                                                     // displays a confirmation modal when called. If the user confirms
+      title: "Are you sure, you want to delete this task?",             // the deletion, the function updates the tasks
+      okText: "Yes",                                                    // state by removing the task with the same title as the record
+      okType: "danger",                                                 
+      onOk: () => {                                                     
+        setTasks((pre) => {                                             
+          return pre.filter((task) => task.title !== record.title);     
         });
       },
     });
   };
 
-  const onEditTask = (record) => {
-    setIsEditing(true);
+  const onEditTask = (record) => {              // The onEditTask function takes a record as its argument and sets the isEditing state to 
+    setIsEditing(true);                         // true and the editingTask state to the record when called
     setEditingTask({ ...record });
   };
 
-  const resetEditing = () => {
-    setIsEditing(false);
+  const resetEditing = () => {                  // The resetEditing function sets the isEditing state to false and the editingTask state to 
+    setIsEditing(false);                        // null when called
     setEditingTask(null);
   };
 
-  const handleAddTask = (values) => {
-    setTasks([
-      ...tasks,
-      {
+  const handleAddTask = (values) => {           // The handleAddTask function takes a values object as its argument and adds a new task to  
+    setTasks([                                  // the tasks state when called. The new task is created by spreading the values
+      ...tasks,                                 // object and adding additional properties such as timestamp, dueDate, and tags.
+      {                                         // The function also resets the form fields and sets the isModalVisible state to false.
         ...values,
         timestamp: moment().format('YYYY-MM-DD HH:mm:ss'),
         dueDate:
@@ -135,8 +136,8 @@ function App() {
     setIsModalVisible(false);
   };
 
-  const handleSearch = (value) => {
-    const filteredTasks = tasks.filter((title) =>
+  const handleSearch = (value) => {                          // The handleSearch function takes a search value as its argument and updates the 
+    const filteredTasks = tasks.filter((title) =>            // tasks state with tasks that match the search value when called.
       Object.values(title).some((val) =>
         val.toString().toLowerCase().includes(value.toLowerCase())
       )
@@ -150,7 +151,7 @@ function App() {
       <div className="container">
       <header className="App-header">
         <h2 className='head'>TODO.</h2>
-    <Input.Search
+    <Input.Search                                         // Search Box //
       allowClear
       enterButton="Search"
       size="large"
@@ -158,7 +159,7 @@ function App() {
       onSearch={handleSearch}
       style={{ marginBottom: '20px', width: '50vh'}}
     />
-    <Button
+    <Button                                              // Button //
         type="primary"
         size='large'
         className='button'
@@ -168,7 +169,7 @@ function App() {
         Add Task
       </Button>
     <div>
-      <Table
+      <Table                                             // ant table compomemt //
         columns={columns}
         dataSource={tasks}
         pagination={{
@@ -179,7 +180,7 @@ function App() {
         }}        
         className="table"      
         />
-      <Modal
+      <Modal                                            // Add Task dialogue box //
         title="Add Task"
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
@@ -233,7 +234,7 @@ function App() {
           </Form.Item>
         </Form>
       </Modal>
-      <Modal
+      <Modal                                // Edit and Delete dialogue box //
           title="Edit Task"
           visible={isEditing}
           okText="Save"
