@@ -1,3 +1,5 @@
+// * * * * * * * * * * * * * * //
+
 import React, { useState } from 'react';                                              // importing components 
 import { Table, Form, Input, DatePicker, Select, Button, Modal, Tag } from 'antd';    // and css file
 import moment from 'moment';                                                          // 
@@ -14,6 +16,8 @@ function App() {                                     // functional component cal
   const [isEditing, setIsEditing] = useState(false);                //used to track whether the user is currently editing a task
   const [editingTask, setEditingTask] = useState(null);             //used to store the task that is currently being edited
   
+//  *********************** //
+
   const columns = [                  // used to configure the columns of a table component
     {
       title: 'Timestamp',
@@ -98,6 +102,8 @@ function App() {                                     // functional component cal
     },
   ];
 
+// * * * * * * * * * * * * * * //
+
   const onDeleteTask = (record) => {                                    // The 'onDeleteTask' function takes a record as its argument and 
     Modal.confirm({                                                     // displays a confirmation modal when called. If the user confirms
       title: "Are you sure, you want to delete this task?",             // the deletion, the function updates the tasks
@@ -145,6 +151,9 @@ function App() {                                     // functional component cal
     );
     setTasks(filteredTasks);
   };
+
+// * * * * * * * * * * * * * * //
+
 
   return (
     <>
@@ -291,3 +300,5 @@ function App() {                                     // functional component cal
 }
 
 export default App;
+
+// * * * * * * * * * * * * * * //
